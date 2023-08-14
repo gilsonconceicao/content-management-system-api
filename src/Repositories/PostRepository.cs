@@ -41,7 +41,7 @@ namespace cmsapplication.src.Repositories
                  _context
                 .posts
                 .Include(post => post.comments)
-                .FirstOrDefault(post => post.Id == id)!
+                .FirstOrDefault(post => post.Id == id)! 
             ); 
             return postById;
         }
@@ -51,14 +51,14 @@ namespace cmsapplication.src.Repositories
             newPost.Id = Guid.NewGuid();
             _context.posts.Add(newPost);
         }
-        public void Update(Guid id, UpdatePostModel post) 
+        public void Update(Guid id, PostUpdateModel post) 
         {
             var updated = GetPostById(id); 
             var updatedData = _mapper.Map<Post>(updated);
             _context.posts.Entry(updatedData).CurrentValues.SetValues(post);
             _context.Entry(updated).State = EntityState.Modified; 
         }
-        public void Delete(Guid id)
+        public void Delete(Guid id) 
         {
             _context.posts.FirstOrDefault(post => post.Id == id);
         }

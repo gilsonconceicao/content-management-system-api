@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace cmsapplication.src.Models.Update;
-public class UpdatePostModel
+public class PostUpdateModel
 {
     [Required]
     public string Title { get; set; }

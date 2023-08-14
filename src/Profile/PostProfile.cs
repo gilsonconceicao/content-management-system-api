@@ -16,6 +16,6 @@ public class PostProfile : Profile
             .ReverseMap();
         CreateMap<Comments,CommentsReadModel>(); 
         CreateMap<Post, PostReadModel>();
-        CreateMap<UpdatePostModel, Post>();
+        CreateMap<PostUpdateModel, Post>();
     }
 }

@@ -13,7 +13,7 @@ namespace cmsapplication.src.Repositories.Interfaces
         ); 
         PostReadModel GetPostById(Guid postId);
         void Insert(PostCreateModel post); 
-        void Update(Guid id, UpdatePostModel post);
+        void Update(Guid id, PostUpdateModel post);
         void Delete(Guid postId);
         void Save();
     } 

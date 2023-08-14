@@ -38,10 +38,10 @@ public class PostsController : Controller
         {
             return NotFound("Post não existe");
         }
-        return Ok(updateById);
+        return Ok(updateById); 
     }
 
-    [HttpPost]
+    [HttpPost("/Post")]
     public IActionResult CreatePost (PostCreateModel post)
     {
         if (post == null)
@@ -54,7 +54,7 @@ public class PostsController : Controller
     }
 
     [HttpPut("{Id}")]
-    public IActionResult UpdatePost(Guid id, [FromBody] UpdatePostModel post)
+    public IActionResult UpdatePost(Guid id, [FromBody] PostUpdateModel post)
     {
         var updateById = _postRepository.GetPostById(id);
         if (updateById == null)
