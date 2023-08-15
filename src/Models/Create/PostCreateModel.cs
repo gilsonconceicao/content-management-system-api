@@ -4,11 +4,11 @@ namespace cmsapplication.src.Models.Create;
 
 public class PostCreateModel
 {
-    [Required]
+    [Required] 
     public string Title { get; set; }
     [Required]
     public string Description { get; set; }
-    public ICollection<CommentsCreateModel>? comments { get; set; }
-    public bool hideLikesNumber { get; set; } = false;
-    public bool disableComments { get; set; } = false;
+    public ICollection<CommentsCreateModel>? Comments { get; set; }
+    public bool HideLikesNumber { get; set; } = false;
+    public bool DisableComments { get; set; } = false;
 }

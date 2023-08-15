@@ -11,7 +11,7 @@ namespace cmsapplication.src.Repositories.Interfaces
             int page = 0, 
             int size = 5
         ); 
-        PostReadModel GetPostById(Guid postId);
+        ICollection<PostReadModel> GetPostById(Guid personId);
         void Insert(PostCreateModel post); 
         void Update(Guid id, PostUpdateModel post);
         void Delete(Guid postId);

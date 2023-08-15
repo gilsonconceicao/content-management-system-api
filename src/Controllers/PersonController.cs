@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using cmsapplication.src.Contexts;
+using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
 using cmsapplication.src.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -26,5 +27,25 @@ public class PersonController : Controller
         }
 
         return Ok(persons);
+    }
+
+    [HttpPost]
+    public IActionResult CreatePerson(PersonCreateModel person)
+    {
+        if (person == null) 
+        {
+            return BadRequest("Erro ao cadastrar pessoa"); 
+        }
+
+        try
+        {
+            _personRepository.Insert(person);
+            _personRepository.Save();
+            return Ok(person);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

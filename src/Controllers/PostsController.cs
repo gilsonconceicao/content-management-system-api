@@ -11,11 +11,13 @@ namespace cmsapplication.src.Controllers;
 public class PostsController : Controller
 {
     private PostRepository _postRepository;
+    private PersonRepository _personRepository; 
     private IMapper _mapper;
 
     public PostsController(DataBaseContext context, IMapper mapper)
     {
         _postRepository = new PostRepository(context, mapper);
+        _personRepository = new PersonRepository(context,mapper);
         _mapper = mapper;
     }
 
@@ -30,15 +32,15 @@ public class PostsController : Controller
         return Ok(posts);
     }
 
-    [HttpGet("{Id}")]
-    public IActionResult UpdatePost(Guid id)
-    {
-        var updateById = _postRepository.GetPostById(id);
-        if (updateById == null)
+    [HttpGet("{Personid}")]
+    public IActionResult GetPostById(Guid personId) 
+    { 
+        var relatedPosts = _postRepository.GetPostById(personId);
+        if (relatedPosts == null)
         {
-            return NotFound("Post não existe");
+            return NotFound("Pessoa não existe");
         }
-        return Ok(updateById); 
+        return Ok(relatedPosts);  
     }
 
     [HttpPost("/Post")]

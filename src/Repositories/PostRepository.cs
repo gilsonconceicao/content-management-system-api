@@ -14,12 +14,14 @@ namespace cmsapplication.src.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly DataBaseContext _context;
+        private PersonRepository _personRepository; 
         private IMapper _mapper;
 
         public PostRepository(DataBaseContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            _personRepository = new PersonRepository(context, mapper);
         }
 
         public ICollection<PostReadModel> GetAllPosts([FromQuery] int page = 0, [FromQuery] int size = 5) 
@@ -27,7 +29,7 @@ namespace cmsapplication.src.Repositories
             var list = _mapper.Map<ICollection<PostReadModel>>(
                 _context
                     .posts
-                    .Include(post => post.comments)
+                    .Include(post => post.Comments)
                     .Skip(page * size)
                     .Take(size)
                     .ToList()
@@ -35,15 +37,14 @@ namespace cmsapplication.src.Repositories
             return list;
         }
 
-        public PostReadModel GetPostById (Guid id) 
+        public ICollection<PostReadModel> GetPostById (Guid personId) 
         {
-            var postById = _mapper.Map<PostReadModel>(
+            var postById = _mapper.Map<PersonReadModel>(
                  _context
-                .posts
-                .Include(post => post.comments)
-                .FirstOrDefault(post => post.Id == id)! 
+                .persons
+                .FirstOrDefault(post => post.Id == personId)! 
             ); 
-            return postById;
+            return postById.RelatedPosts;
         }
         public void Insert(PostCreateModel post)
         {

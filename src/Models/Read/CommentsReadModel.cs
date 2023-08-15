@@ -3,6 +3,6 @@
 public class CommentsReadModel
 {
     public Guid PostId { get; set; }
-    public string comment { get; set; }
+    public string Comment { get; set; } 
     public DateTime DateTime { get; set; }
 }

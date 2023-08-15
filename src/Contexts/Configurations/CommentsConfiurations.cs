@@ -9,8 +9,8 @@ namespace cmsapplication.src.Contexts.Configurations
         public void Configure(EntityTypeBuilder<Comments> builder)
         {
             builder.HasKey(p => new { 
-                p.PostId, 
-                p.comment 
+                p.PostId,  
+                p.Comment 
             }); 
         }
     }
