@@ -8,6 +8,6 @@ public class Person
     public string Name { get; set; }
     public string Email { get; set; }
     public DateTime BirthDate { get; set; }
-    public string PhoneNumber { get; set; } 
-    public ICollection<Post> RelatedPosts { get; set; } 
+    public string PhoneNumber { get; set; }  
+    public List<Post> RelatedPosts { get; set; } = new List<Post>();
 }

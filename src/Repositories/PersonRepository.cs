@@ -21,7 +21,12 @@ public class PersonRepository : IPersonRepository
 
     public ICollection<PersonReadModel> GetAllPerson() 
     {
-        var persons = _mapper.Map<ICollection<PersonReadModel>>(_context.persons.ToList()); 
+        var persons = _mapper.Map<ICollection<PersonReadModel>>(
+            _context
+            .persons
+            .Include(p => p.RelatedPosts)
+            .ToList()
+        ); 
         return persons;
     }
 

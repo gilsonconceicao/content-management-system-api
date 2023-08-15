@@ -7,5 +7,5 @@ public class PersonReadModel
     public string Email { get; set; }
     public DateTime BirthDate { get; set; }
     public string PhoneNumber { get; set; }
-    public ICollection<PostReadModel> RelatedPosts { get; set; } 
+    public List<PostReadModel> RelatedPosts { get; set; } 
 }

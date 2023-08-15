@@ -35,9 +35,9 @@ namespace cmsapplication.src.Repositories
                     .ToList()
             ); 
             return list;
-        }
+        } 
 
-        public ICollection<PostReadModel> GetPostById (Guid personId) 
+        public List<PostReadModel> GetPostByPersonId (Guid personId) 
         {
             var postById = _mapper.Map<PersonReadModel>(
                  _context
@@ -46,18 +46,25 @@ namespace cmsapplication.src.Repositories
             ); 
             return postById.RelatedPosts;
         }
-        public void Insert(PostCreateModel post)
+        public Post GetPostById(Guid id)
+        { 
+            return _context
+                .posts
+                .FirstOrDefault(post => post.Id == id)!;
+        }
+        public void Insert(PostCreateModel post, Person person)
         {
             var newPost = _mapper.Map<Post>(post);
+            person.RelatedPosts.Add(newPost);
             newPost.Id = Guid.NewGuid();
-            _context.posts.Add(newPost);
+            _context.posts.Add(newPost); 
         }
         public void Update(Guid id, PostUpdateModel post) 
-        {
-            var updated = GetPostById(id); 
-            var updatedData = _mapper.Map<Post>(updated);
+        { 
+            var findPost = _context.posts.FirstOrDefault(post => post.Id == id); 
+            var updatedData = _mapper.Map<Post>(findPost);
             _context.posts.Entry(updatedData).CurrentValues.SetValues(post);
-            _context.Entry(updated).State = EntityState.Modified; 
+            _context.Entry(findPost!).State = EntityState.Modified; 
         }
         public void Delete(Guid id) 
         {

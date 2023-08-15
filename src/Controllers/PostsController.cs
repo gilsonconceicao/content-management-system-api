@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using cmsapplication.src.Contexts;
+using cmsapplication.src.Models;
 using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Update;
 using cmsapplication.src.Repositories;
@@ -32,7 +33,7 @@ public class PostsController : Controller
         return Ok(posts);
     }
 
-    [HttpGet("{Personid}")]
+    [HttpGet("{PersonId}")]
     public IActionResult GetPostById(Guid personId) 
     { 
         var relatedPosts = _postRepository.GetPostById(personId);
@@ -43,15 +44,20 @@ public class PostsController : Controller
         return Ok(relatedPosts);  
     }
 
-    [HttpPost("/Post")]
-    public IActionResult CreatePost (PostCreateModel post)
+    [HttpPost("/Post/{PersonId}")]
+    public IActionResult CreatePost (Guid PersonId, PostCreateModel post)
     {
+        Person person = _personRepository.GetPersonById(PersonId);
+        if (person == null)
+        {
+            return NotFound("Pessoa não existe"); 
+        }
         if (post == null)
         {
             return BadRequest("Erro ao criar o post"); 
-        } 
-        _postRepository.Insert(post);
-        _postRepository.Save();
+        }
+        _postRepository.Insert(post, person);
+        _postRepository.Save(); 
         return Ok(post);
     }
 
