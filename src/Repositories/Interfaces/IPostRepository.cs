@@ -10,12 +10,12 @@ namespace cmsapplication.src.Repositories.Interfaces
         ICollection<PostReadModel> GetAllPosts(
             int page = 0, 
             int size = 5
-        );   
-        List<PostReadModel> GetPostByPersonId(Guid personId);
-        Post GetPostById(Guid id);   
+        );     
+        List<RelatedPersonReadModel> GetPostByPersonId(Guid personId);
+        PostReadModel GetPostById(Guid id);    
         void Insert(PostCreateModel post, Person person); 
-        void Update(Guid id, PostUpdateModel post);
-        void Delete(Guid postId);
+        void Update(Guid id, PostUpdateModel post); 
+        void Delete(Post post);
         void Save();
     } 
 }

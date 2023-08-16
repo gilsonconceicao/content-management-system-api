@@ -17,7 +17,6 @@ public class DataBaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfiguration(new CommentsConfiguration());
         modelBuilder.ApplyConfiguration(new PersonConfiguration());
     } 
 }
