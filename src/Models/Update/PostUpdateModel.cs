@@ -7,7 +7,8 @@ public class PostUpdateModel
     [Required]
     public string Title { get; set; }
     [Required]
-    public string Description { get; set; }   
+    public string Description { get; set; }
+    public string Biography { get; set; }
     public ICollection<CommentsCreateModel>? Comments { get; set; }
     public bool HideLikesNumber { get; set; } = false;
     public bool DisableComments { get; set; } = false;
