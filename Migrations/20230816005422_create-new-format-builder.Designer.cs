@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using cmsapplication.src.Contexts;
 
@@ -10,9 +11,11 @@ using cmsapplication.src.Contexts;
 namespace cmsapplication.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230816005422_create-new-format-builder")]
+    partial class createnewformatbuilder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,22 +25,15 @@ namespace cmsapplication.Migrations
             modelBuilder.Entity("cmsapplication.src.Models.Comments", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("PostId1")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("PostId");
-
-                    b.HasIndex("PostId1");
+                    b.HasKey("PostId", "Comment");
 
                     b.ToTable("comments");
                 });
@@ -59,10 +55,6 @@ namespace cmsapplication.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -77,10 +69,6 @@ namespace cmsapplication.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("Biography")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -110,7 +98,7 @@ namespace cmsapplication.Migrations
                 {
                     b.HasOne("cmsapplication.src.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId1")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -9,9 +9,9 @@ public interface IPersonRepository
 {
     ICollection<PersonReadModel> GetAllPerson();
     Person GetPersonById(Guid Id);
-    void Insert(PersonCreateModel person);
-    void Update(Guid id, PersonUpdateModel post);
-    void Delete(Guid postId);
+    void Insert(PersonCreateModel person); 
+    void Update(Person personToUpdate, PersonUpdateModel post);
+    void Delete(Person person); 
     void Save();
 }
 

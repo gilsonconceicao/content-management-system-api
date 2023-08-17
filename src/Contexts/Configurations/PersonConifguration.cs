@@ -9,8 +9,12 @@ namespace cmsapplication.src.Contexts.Configurations
         public void Configure(EntityTypeBuilder<Person> builder)
         {
             builder.HasKey(p => new { 
-                p.Id
-            });  
+                p.Id  
+            });
+
+            builder.HasMany(p => p.RelatedPosts)
+                .WithOne(p => p.Person)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     } 
 }

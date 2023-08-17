@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using cmsapplication.src.Contexts;
+using cmsapplication.src.Models;
 using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
+using cmsapplication.src.Models.Update;
 using cmsapplication.src.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +13,19 @@ namespace cmsapplication.src.Controllers;
 public class PersonController : Controller
 {
     private PersonRepository _personRepository;
+    private IMapper _mapper; 
 
     public PersonController(DataBaseContext context, IMapper mapper)
     {
         _personRepository = new PersonRepository(context, mapper);
+        _mapper = mapper;
     }
 
     [HttpGet]
     public IActionResult GetAllPersons()
     {
         ICollection<PersonReadModel> persons = _personRepository.GetAllPerson(); 
-        if (persons == null)
+        if (persons is null)
         {
             return BadRequest("Erro ao obter informações de pessoas");
         }
@@ -29,10 +33,22 @@ public class PersonController : Controller
         return Ok(persons);
     }
 
+    [HttpGet("{Id}")]
+    public IActionResult GetPersonById(Guid Id)
+    {
+        Person person = _personRepository.GetPersonById(Id);
+        if (person is null)
+        {
+            return NotFound("Pessoa não existe");
+        }
+         
+        return Ok(_mapper.Map<PersonReadModel>(person));
+    }
+
     [HttpPost]
     public IActionResult CreatePerson(PersonCreateModel person)
     {
-        if (person == null) 
+        if (person is null) 
         {
             return BadRequest("Erro ao cadastrar pessoa"); 
         }
@@ -46,6 +62,51 @@ public class PersonController : Controller
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdatePost(Guid id, [FromBody] PersonUpdateModel person)
+    { 
+        var findPerson = _personRepository.GetPersonById(id);
+        if (findPerson is null)
+        {
+            return NotFound("Usuário não existe"); 
+        }
+
+        try
+        {
+            _personRepository.Update(findPerson, person);
+            _personRepository.Save();
+            return Ok();
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete]
+    public IActionResult Delete(Guid id)
+    {
+        Person person = _personRepository.GetPersonById(id);
+        if (person is null)
+        {
+            return NotFound(new { error = "Pessoa não encontrada"}); 
+        }
+        try
+        {
+            _personRepository.Delete(person);
+            _personRepository.Save();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new
+            {
+                error = ex.Message, 
+                message = "Erro inesperado ao remover a pessoaperson " + person.Name
+            });
         }
     }
 }
