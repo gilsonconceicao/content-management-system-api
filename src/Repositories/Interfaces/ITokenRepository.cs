@@ -5,4 +5,5 @@ namespace cmsapplication.src.Repositories.Interfaces;
 public interface ITokenRepository
 {
     string GenerateToken(Person person);
+    bool ValidateToken(string Token); 
 }

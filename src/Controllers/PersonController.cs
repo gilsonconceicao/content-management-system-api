@@ -13,11 +13,13 @@ namespace cmsapplication.src.Controllers;
 public class PersonController : Controller
 {
     private PersonRepository _personRepository;
+    private AuthRepository _authRepository; 
     private IMapper _mapper; 
 
-    public PersonController(DataBaseContext context, IMapper mapper)
+    public PersonController(DataBaseContext context, IMapper mapper, IConfiguration configuration)
     {
         _personRepository = new PersonRepository(context, mapper);
+        _authRepository = new AuthRepository(context, mapper, configuration);
         _mapper = mapper;
     }
 
@@ -48,6 +50,12 @@ public class PersonController : Controller
     [HttpPost]
     public IActionResult CreatePerson(PersonCreateModel person)
     {
+        var existUser = _authRepository.CheckUserExists(person.Email); 
+        if (existUser)
+        {
+            return BadRequest(new { error = "Email informado já existe" });
+        }
+
         if (person is null) 
         {
             return BadRequest("Erro ao cadastrar pessoa"); 
