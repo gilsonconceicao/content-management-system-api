@@ -18,5 +18,6 @@ public class DataBaseContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new PersonConfiguration());
+        modelBuilder.ApplyConfiguration(new CommentConfiguration());
     } 
 }

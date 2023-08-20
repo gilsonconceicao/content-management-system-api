@@ -11,8 +11,8 @@ using cmsapplication.src.Contexts;
 namespace cmsapplication.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20230814235526_create-posts-personid")]
-    partial class createpostspersonid
+    [Migration("20230820020154_restore-database")]
+    partial class restoredatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,16 +24,23 @@ namespace cmsapplication.Migrations
 
             modelBuilder.Entity("cmsapplication.src.Models.Comments", b =>
                 {
-                    b.Property<Guid>("PostId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("comment")
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("PostId", "comment");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("comments");
                 });
@@ -52,6 +59,10 @@ namespace cmsapplication.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -97,7 +108,7 @@ namespace cmsapplication.Migrations
             modelBuilder.Entity("cmsapplication.src.Models.Comments", b =>
                 {
                     b.HasOne("cmsapplication.src.Models.Post", "Post")
-                        .WithMany("comments")
+                        .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -123,7 +134,7 @@ namespace cmsapplication.Migrations
 
             modelBuilder.Entity("cmsapplication.src.Models.Post", b =>
                 {
-                    b.Navigation("comments");
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

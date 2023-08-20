@@ -25,7 +25,7 @@ public class AuthRepository : IAuth
         Person userExist = _context.persons.FirstOrDefault(person => 
             person.Email == email
         )!; 
-        if (userExist is null)
+        if (userExist != null)
         {
             return true;
         }

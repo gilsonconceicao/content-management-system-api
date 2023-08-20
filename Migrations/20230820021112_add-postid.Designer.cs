@@ -11,8 +11,8 @@ using cmsapplication.src.Contexts;
 namespace cmsapplication.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20230813000152_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230820021112_add-postid")]
+    partial class addpostid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,41 +24,55 @@ namespace cmsapplication.Migrations
 
             modelBuilder.Entity("cmsapplication.src.Models.Comments", b =>
                 {
-                    b.Property<Guid>("PostId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("comment")
-                        .HasColumnType("varchar(255)");
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("PostId", "comment");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("comments");
                 });
 
-            modelBuilder.Entity("cmsapplication.src.Models.ConfigurePost", b =>
+            modelBuilder.Entity("cmsapplication.src.Models.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("char(36)");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("disableComments")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<bool>("hideLikesNumber")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId")
-                        .IsUnique();
-
-                    b.ToTable("ConfigurePost");
+                    b.ToTable("persons");
                 });
 
             modelBuilder.Entity("cmsapplication.src.Models.Post", b =>
@@ -71,11 +85,22 @@ namespace cmsapplication.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("DisableComments")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("HideLikesNumber")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
 
                     b.ToTable("posts");
                 });
@@ -83,19 +108,8 @@ namespace cmsapplication.Migrations
             modelBuilder.Entity("cmsapplication.src.Models.Comments", b =>
                 {
                     b.HasOne("cmsapplication.src.Models.Post", "Post")
-                        .WithMany("comments")
+                        .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("cmsapplication.src.Models.ConfigurePost", b =>
-                {
-                    b.HasOne("cmsapplication.src.Models.Post", "Post")
-                        .WithOne("ConfigurePost")
-                        .HasForeignKey("cmsapplication.src.Models.ConfigurePost", "PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -104,9 +118,23 @@ namespace cmsapplication.Migrations
 
             modelBuilder.Entity("cmsapplication.src.Models.Post", b =>
                 {
-                    b.Navigation("ConfigurePost");
+                    b.HasOne("cmsapplication.src.Models.Person", "Person")
+                        .WithMany("RelatedPosts")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("comments");
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("cmsapplication.src.Models.Person", b =>
+                {
+                    b.Navigation("RelatedPosts");
+                });
+
+            modelBuilder.Entity("cmsapplication.src.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

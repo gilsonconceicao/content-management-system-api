@@ -62,7 +62,7 @@ public class PostsController : Controller
         return Ok(post);
     }
 
-    [HttpPut("{Id}")]
+    [HttpPut("{id}")]
     public IActionResult UpdatePost(Guid id, [FromBody] PostUpdateModel post)
     {
         var updateById = _postRepository.GetPostById(id);

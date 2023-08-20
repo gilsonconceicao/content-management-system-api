@@ -4,7 +4,7 @@ namespace cmsapplication.src.Models;
 
 public class Comments
 {
-    [Key] 
+    public Guid Id { get; set; } 
     public Guid PostId { get; set; }
     public string Comment { get; set; }
     public DateTime DateTime { get; set; }

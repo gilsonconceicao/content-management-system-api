@@ -70,7 +70,7 @@ public class PersonController : Controller
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
-        }
+        }   
     }
 
     [HttpPut("{id}")]

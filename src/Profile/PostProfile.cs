@@ -12,10 +12,8 @@ public class PostProfile : Profile
     {
         CreateMap<PostCreateModel, Post>()
             .ReverseMap();
-        CreateMap<CommentsCreateModel, Comments>()
-            .ReverseMap();
-        CreateMap<Comments,CommentsReadModel>(); 
-        CreateMap<Post, PostReadModel>(); 
+        CreateMap<Post, PostReadModel>()
+            .ReverseMap(); 
         CreateMap<Post, RelatedPersonReadModel>();
         CreateMap<PostUpdateModel, Post>();
     }

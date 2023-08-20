@@ -21,7 +21,7 @@ namespace cmsapplication.Migrations
 
             modelBuilder.Entity("cmsapplication.src.Models.Comments", b =>
                 {
-                    b.Property<Guid>("PostId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
@@ -32,12 +32,12 @@ namespace cmsapplication.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("PostId1")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("PostId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("PostId1");
+                    b.HasIndex("PostId");
 
                     b.ToTable("comments");
                 });
@@ -78,10 +78,6 @@ namespace cmsapplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Biography")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -110,7 +106,7 @@ namespace cmsapplication.Migrations
                 {
                     b.HasOne("cmsapplication.src.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId1")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
