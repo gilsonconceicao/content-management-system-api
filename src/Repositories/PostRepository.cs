@@ -13,14 +13,12 @@ namespace cmsapplication.src.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly DataBaseContext _context;
-        private PersonRepository _personRepository; 
         private IMapper _mapper;
 
         public PostRepository(DataBaseContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _personRepository = new PersonRepository(context, mapper);
         }
 
         public ICollection<PostReadModel> GetAllPosts([FromQuery] int page = 0, [FromQuery] int size = 5) 
@@ -36,15 +34,7 @@ namespace cmsapplication.src.Repositories
             return list;
         } 
 
-        public List<RelatedPersonReadModel> GetPostByPersonId (Guid personId) 
-        {
-            var postById = _mapper.Map<PersonReadModel>(
-                 _context
-                .persons 
-                .FirstOrDefault(post => post.Id == personId)! 
-            ); 
-            return postById.RelatedPosts;
-        }
+       
         public PostReadModel GetPostById(Guid id)
         {
             return _mapper.Map<Post, PostReadModel>(

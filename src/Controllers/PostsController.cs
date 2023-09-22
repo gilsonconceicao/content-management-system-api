@@ -13,13 +13,11 @@ namespace cmsapplication.src.Controllers;
 public class PostsController : Controller
 {
     private PostRepository _postRepository;
-    private PersonRepository _personRepository; 
     private IMapper _mapper;
 
     public PostsController(DataBaseContext context, IMapper mapper)
     {
         _postRepository = new PostRepository(context, mapper);
-        _personRepository = new PersonRepository(context,mapper);
         _mapper = mapper;
     }
 
@@ -45,22 +43,22 @@ public class PostsController : Controller
         return Ok(relatedPosts);  
     }
 
-    [HttpPost("/Post/{PersonId}")]
-    public IActionResult CreatePost (Guid PersonId, PostCreateModel post)
-    {
-        Person person = _personRepository.GetPersonById(PersonId);
-        if (person is null)
-        {
-            return NotFound("Pessoa não existe"); 
-        }
-        if (post is null)
-        {
-            return BadRequest("Erro ao criar o post"); 
-        }
-        _postRepository.Insert(post, person);
-        _postRepository.Save(); 
-        return Ok(post);
-    }
+    //[HttpPost("/Post/{PersonId}")]
+    //public IActionResult CreatePost (Guid PersonId, PostCreateModel post)
+    //{
+    //    Person person = _personRepository.GetPersonById(PersonId);
+    //    if (person is null)
+    //    {
+    //        return NotFound("Pessoa não existe"); 
+    //    }
+    //    if (post is null)
+    //    {
+    //        return BadRequest("Erro ao criar o post"); 
+    //    }
+    //    _postRepository.Insert(post, person);
+    //    _postRepository.Save(); 
+    //    return Ok(post);
+    //}
 
     [HttpPut("{id}")]
     public IActionResult UpdatePost(Guid id, [FromBody] PostUpdateModel post)
@@ -81,7 +79,7 @@ public class PostsController : Controller
         return Ok(post);
     }
 
-    [HttpDelete("{Id}")]
+    [HttpDelete("{id}")]
     public IActionResult DeletePostById (Guid id)
     {
         Post post = _mapper.Map<Post>(_postRepository.GetPostById(id));

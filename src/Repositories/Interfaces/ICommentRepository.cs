@@ -9,8 +9,7 @@ public interface ICommentRepository
 {
     CommentsReadModel GetCommentById(Guid postId);  
     void Insert(Post post, CommentsCreateModel comment);
-    void Update(Guid id, CommentUpdateModel comment); 
-    //void Delete(Guid Id);
+    void Update(Guid id, CommentUpdateModel comment);
     void Save();
 }
 

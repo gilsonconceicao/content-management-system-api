@@ -11,7 +11,6 @@ namespace cmsapplication.src.Repositories.Interfaces
             int page = 0, 
             int size = 5
         );     
-        List<RelatedPersonReadModel> GetPostByPersonId(Guid personId);
         PostReadModel GetPostById(Guid id);    
         void Insert(PostCreateModel post, Person person); 
         void Update(Guid id, PostUpdateModel post); 
