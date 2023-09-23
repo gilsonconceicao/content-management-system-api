@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace cmsapplication.src.Repositories;
+namespace cmsapplication.src.Services;
 
 public class TokenServices
 {
@@ -16,26 +16,27 @@ public class TokenServices
         _configuration = configuration;
     }
 
-    public string GenerateToken(Person user)
+    public string GenerateToken()
     {
-        var secret = Convert.FromBase64String(encoded_key);
-        if (secret.Length < 32)
-        {
-            throw new ArgumentException("ERROR: Use a key of at least 32 bytes (256 bits) for HS256.");
-        }
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new[] {
-                new Claim("Password", user.Password),
-                new Claim("Email", user.Email)
-            }),
-            Expires = DateTime.UtcNow.AddMinutes(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256)
-        };
-        var sectoken = tokenHandler.CreateToken(tokenDescriptor);
-        var stringtoken = tokenHandler.WriteToken(sectoken);
-        return stringtoken;
+        //var secret = Convert.FromBase64String(encoded_key);
+        //if (secret.Length < 32)
+        //{
+        //    throw new ArgumentException("ERROR: Use a key of at least 32 bytes (256 bits) for HS256.");
+        //}
+        //var tokenHandler = new JwtSecurityTokenHandler();
+        //var tokenDescriptor = new SecurityTokenDescriptor
+        //{
+        //    Subject = new ClaimsIdentity(new[] {
+        //        new Claim("Password", user.Password),
+        //        new Claim("Email", user.Email)
+        //    }),
+        //    Expires = DateTime.UtcNow.AddMinutes(7),
+        //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256)
+        //};
+        //var sectoken = tokenHandler.CreateToken(tokenDescriptor);
+        //var stringtoken = tokenHandler.WriteToken(sectoken);
+        //return stringtoken;
+        return "";
     }
 
     public bool ValidateToken(string token)

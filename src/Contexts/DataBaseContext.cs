@@ -7,8 +7,8 @@ namespace cmsapplication.src.Contexts;
 public class DataBaseContext : DbContext
 {
     public DbSet<Post> posts { get; set; } 
-    public DbSet<Comments> comments { get; set; } 
-    public DbSet<Person> persons { get; set; } 
+    public DbSet<Comments> comments { get; set; }
+    public DbSet<User> users { get; set; }
 
     public DataBaseContext(DbContextOptions options)
         : base(options)
@@ -17,7 +17,6 @@ public class DataBaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfiguration(new PersonConfiguration());
         modelBuilder.ApplyConfiguration(new CommentConfiguration());
     } 
 }

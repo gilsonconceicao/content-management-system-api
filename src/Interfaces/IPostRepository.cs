@@ -3,18 +3,18 @@ using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
 using cmsapplication.src.Models.Update;
 
-namespace cmsapplication.src.Repositories.Interfaces
+namespace cmsapplication.src.Interfaces
 {
     public interface IPostRepository
     {
         ICollection<PostReadModel> GetAllPosts(
-            int page = 0, 
+            int page = 0,
             int size = 5
-        );     
-        PostReadModel GetPostById(Guid id);    
-        void Insert(PostCreateModel post, Person person); 
-        void Update(Guid id, PostUpdateModel post); 
+        );
+        PostReadModel GetPostById(Guid id);
+        void Insert(PostCreateModel post);
+        void Update(Guid id, PostUpdateModel post);
         void Delete(Post post);
         void Save();
-    } 
+    }
 }

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using cmsapplication.src.Contexts;
+using cmsapplication.src.Interfaces;
 using cmsapplication.src.Models;
 using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
 using cmsapplication.src.Models.Update;
-using cmsapplication.src.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 

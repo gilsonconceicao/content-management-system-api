@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using cmsapplication.src.Contexts;
+using cmsapplication.src.Interfaces;
 using cmsapplication.src.Models;
 using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
 using cmsapplication.src.Models.Update;
-using cmsapplication.src.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,11 +44,11 @@ namespace cmsapplication.src.Repositories
                 .FirstOrDefault(post => post.Id == id)!
             );
         }
-        public void Insert(PostCreateModel post, Person person)
+        public void Insert(PostCreateModel post)
         {
             var newPost = _mapper.Map<Post>(post);
             newPost.Id = Guid.NewGuid();
-            person.RelatedPosts.Add(newPost);
+            //person.RelatedPosts.Add(newPost);
             _context.posts.Add(newPost); 
         }
         public void Update(Guid id, PostUpdateModel post) 

@@ -14,7 +14,6 @@ public class PostProfile : Profile
             .ReverseMap();
         CreateMap<Post, PostReadModel>()
             .ReverseMap(); 
-        CreateMap<Post, RelatedPersonReadModel>();
         CreateMap<PostUpdateModel, Post>();
     }
 }

@@ -5,7 +5,6 @@ using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
 using cmsapplication.src.Models.Update;
 using cmsapplication.src.Repositories;
-using cmsapplication.src.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace cmsapplication.src.Controllers;
