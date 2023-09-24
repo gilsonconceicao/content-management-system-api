@@ -5,6 +5,7 @@ using cmsapplication.src.Models;
 using cmsapplication.src.Models.Create;
 using cmsapplication.src.Models.Read;
 using cmsapplication.src.Models.Update;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace cmsapplication.src.Repositories;
@@ -38,15 +39,24 @@ public class UserRepository  : IUserRepository
         _context.Remove(user);
     }
 
-    public async Task<List<UserReadModel>> GetAllUsers()
+    public async Task<List<UserReadModel>> GetAllUsers([FromQuery] int page, [FromQuery] int size)
     {
-        List<User> users = await _context.users.ToListAsync(); 
+        List<User> users = await 
+            _context
+            .users
+            .Include(u => u.RelatedPosts)
+            .Take(size)
+            .Skip(size * page)
+            .ToListAsync(); 
         return _mapper.Map<List<User>, List<UserReadModel>>(users);
     }
 
     public async Task<User> GetUserById(Guid id)
     {
-        return await _context.users.FirstOrDefaultAsync(u => u.Id == id);
+        return await 
+            _context.users
+            .Include(u => u.RelatedPosts)
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<bool> DoesEmailOrUsernameExist(string email, string userName)

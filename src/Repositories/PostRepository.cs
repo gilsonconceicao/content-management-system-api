@@ -13,6 +13,7 @@ namespace cmsapplication.src.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly DataBaseContext _context;
+
         private IMapper _mapper;
 
         public PostRepository(DataBaseContext context, IMapper mapper)
@@ -21,11 +22,10 @@ namespace cmsapplication.src.Repositories
             _mapper = mapper;
         }
 
-        public ICollection<PostReadModel> GetAllPosts([FromQuery] int page = 0, [FromQuery] int size = 5) 
+        public IList<PostReadModel> GetAllPosts([FromQuery] int page = 0, [FromQuery] int size = 5) 
         {
-            var list = _mapper.Map<ICollection<PostReadModel>>(
-                _context
-                    .posts
+            var list = _mapper.Map<IList<PostReadModel>>(
+                _context.posts
                     .Include(post => post.Comments)
                     .Skip(page * size)
                     .Take(size)
@@ -34,22 +34,19 @@ namespace cmsapplication.src.Repositories
             return list;
         } 
 
-       
         public PostReadModel GetPostById(Guid id)
         {
-            return _mapper.Map<Post, PostReadModel>(
-                _context
-                .posts  
-                .Include(post => post.Comments)
-                .FirstOrDefault(post => post.Id == id)!
-            );
+            Post postById = _context
+                .posts
+                .Include(p => p.Comments)
+                .FirstOrDefault(post => post.Id == id); 
+            return _mapper.Map<Post, PostReadModel>(postById);
         }
-        public void Insert(PostCreateModel post)
+        public async Task Insert(PostCreateModel post, User user)
         {
-            var newPost = _mapper.Map<Post>(post);
-            newPost.Id = Guid.NewGuid();
-            //person.RelatedPosts.Add(newPost);
-            _context.posts.Add(newPost); 
+            Post newPost = _mapper.Map<Post>(post);
+            user.RelatedPosts.Add(newPost);
+            await _context.posts.AddAsync(newPost); 
         }
         public void Update(Guid id, PostUpdateModel post) 
         { 
@@ -63,9 +60,9 @@ namespace cmsapplication.src.Repositories
             _context.Remove(post);
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
     }
 }

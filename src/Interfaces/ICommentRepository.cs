@@ -7,9 +7,9 @@ namespace cmsapplication.src.Interfaces;
 
 public interface ICommentRepository
 {
-    CommentsReadModel GetCommentById(Guid postId);
-    void Insert(Post post, CommentsCreateModel comment);
-    void Update(Guid id, CommentUpdateModel comment);
-    void Save();
+    Comments GetCommentById(Guid postId);
+    Task Insert(Post post, CommentsCreateModel comment);
+    void Update(Comments commentById, CommentUpdateModel comment);
+    Task Save();
 }
 

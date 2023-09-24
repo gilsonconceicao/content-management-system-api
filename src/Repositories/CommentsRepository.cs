@@ -23,34 +23,30 @@ public class CommentsRepository : ICommentRepository
         _postRepository = new PostRepository(context, mapper);
     }
 
-    public CommentsReadModel GetCommentById(Guid id)
+    public Comments GetCommentById(Guid id)
     {
         var comment = _context.comments.FirstOrDefault(comment => 
             comment.Id == id
         );
-        return _mapper.Map<Comments, CommentsReadModel>(comment!);
+        return comment;
     }
 
-    public void Insert(Post post, CommentsCreateModel comment)
+    public async Task Insert(Post post, CommentsCreateModel comment)
     {
-        var commentMapper = _mapper.Map<Comments>(comment); 
-        commentMapper.Id = Guid.NewGuid();
+        Comments commentMapper = _mapper.Map<Comments>(comment);
         commentMapper.PostId = post.Id; 
         post.Comments!.Add(commentMapper);
-        _context.comments.Add(commentMapper);
+        await _context.comments.AddAsync(commentMapper);
     }
 
-    public void Update(Guid id, CommentUpdateModel comment)
+    public void Update(Comments commentById, CommentUpdateModel comment)
     {
-        var commentById = _context.comments.FirstOrDefault(c => c.Id == id);
         _context.comments.Entry(commentById!).CurrentValues.SetValues(comment);
         _context.Entry(commentById!).State = EntityState.Modified;
     }
 
-
-
-    public void Save() 
+    public async Task Save() 
     { 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }
