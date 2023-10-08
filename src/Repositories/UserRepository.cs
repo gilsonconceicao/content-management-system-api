@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace cmsapplication.src.Repositories;
 public class UserRepository  : IUserRepository
 {
-    private readonly DataBaseContext _context;
+    private DataBaseContext _context;
     public IMapper _mapper; 
 
     public UserRepository(DataBaseContext context, IMapper mapper)
@@ -23,7 +23,7 @@ public class UserRepository  : IUserRepository
     public async Task<string> CreateNewUser(UserCreateModel user)
     {
         User newUser = _mapper.Map<User>(user);
-        await _context.AddAsync(newUser);
+        await _context.users.AddAsync(newUser);
         return newUser.Id.ToString(); 
     }
 
@@ -72,6 +72,6 @@ public class UserRepository  : IUserRepository
 
     public async Task SaveChangesAsync()
     {
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(true);
     }
 }

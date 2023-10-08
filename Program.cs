@@ -11,15 +11,12 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("databaseCms");
+var connectionString = builder.Configuration.GetConnectionString("DatabaseCms");
 
 builder.Services.AddDbContext<DataBaseContext>(options => 
-    options.UseMySql(
-        connectionString,  
-        ServerVersion.AutoDetect(connectionString)
-    )
+   options.UseNpgsql(connectionString)
 );
 
 builder.Services.AddScoped<TokenServices>();
